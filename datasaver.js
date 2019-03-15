@@ -1,7 +1,7 @@
 const fs = require('fs')
 const rp = require('request-promise')
 
-console.log("DATA SAVER RUNNING")
+console.log('DATA SAVER RUNNING')
 
 const getSavedUsers = async () => {
   let currentData
@@ -20,12 +20,12 @@ const saveUsers = async (users) => {
 }
 
 const checkCurrentUsers = async () => {
-  console.log("CHECKING CURRENT USERS")
+  console.log('CHECKING CURRENT USERS')
 
   const opts = {
     method: 'GET',
     uri: 'http://localhost:3000/users',
-    json: true
+    json: true,
   }
 
   const newUserList = await rp(opts)
@@ -33,10 +33,10 @@ const checkCurrentUsers = async () => {
 
   for (let user of newUserList) {
     if (users[user.id] === undefined) {
-      console.log("FOUND NEW USER", user.id, user.name)
+      console.log('FOUND NEW USER', user.id, user.name)
       users[user.id] = user
     } else {
-      console.log("USER ALREADY SAVED", user.id, user.name)
+      console.log('USER ALREADY SAVED', user.id, user.name)
     }
   }
 
