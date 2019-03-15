@@ -1,12 +1,15 @@
-const fs = require('fs')
-const rp = require('request-promise')
+import fs from 'fs'
+import rp from 'request-promise'
 
 console.log('DATA SAVER RUNNING')
 
+export const urlHost = 'http://localhost:3000'
+export const urlPath = '/users'
 export const USERS_FILE = './users.json'
 
 const getSavedUsers = async (usersFile) => {
   let currentData
+
   if (fs.existsSync(usersFile)) {
     const fileStr = fs.readFileSync(usersFile)
     currentData = JSON.parse(fileStr)
@@ -53,4 +56,6 @@ export default {
 
     checkCurrentUsers(usersFile)
   },
+
+  once: (usersFile = USERS_FILE) => checkCurrentUsers(usersFile),
 }
