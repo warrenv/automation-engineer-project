@@ -3,8 +3,8 @@
     - Helps with maintainability by having a single source of truth.
 
   - Use an index.js to unify.
-    - datawatcher
-      - Refactor watcher into a module.
+    - datafetcher
+      - [x] Refactor http call into a module.
         - Easier to reuse and helps testing by separating
           server creation from instantiation.
 
@@ -13,10 +13,10 @@
       - Mainly helps for control during testing.
 
 - Can the datafetcher get data from the third-party api successfully
-  - TODO: write integration tests.
+  - TODO: [x] write integration tests.
     - log success.
-      - report number of entries fetched.
-      - report timing? via middleware?
+      - report number of entries fetched?
+      - report timing?
     - log errors.
 
 - Can the datasaver save data successfully
