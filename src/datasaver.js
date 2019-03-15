@@ -3,10 +3,12 @@ const rp = require('request-promise')
 
 console.log('DATA SAVER RUNNING')
 
-const getSavedUsers = async () => {
+export const USERS_FILE = './users.json'
+
+const getSavedUsers = async (usersFile) => {
   let currentData
-  if (fs.existsSync('./users.json')) {
-    const fileStr = fs.readFileSync('./users.json')
+  if (fs.existsSync(usersFile)) {
+    const fileStr = fs.readFileSync(usersFile)
     currentData = JSON.parse(fileStr)
   } else {
     currentData = {}
@@ -15,11 +17,11 @@ const getSavedUsers = async () => {
   return currentData
 }
 
-const saveUsers = async (users) => {
-  fs.writeFileSync('./users.json', JSON.stringify(users, null, 2))
+const saveUsers = async (usersFile, users) => {
+  fs.writeFileSync(usersFile, JSON.stringify(users, null, 2))
 }
 
-const checkCurrentUsers = async () => {
+const checkCurrentUsers = async usersFile => {
   console.log('CHECKING CURRENT USERS')
 
   const opts = {
@@ -29,7 +31,7 @@ const checkCurrentUsers = async () => {
   }
 
   const newUserList = await rp(opts)
-  const users = await getSavedUsers()
+  const users = await getSavedUsers(usersFile)
 
   for (let user of newUserList) {
     if (users[user.id] === undefined) {
@@ -40,15 +42,15 @@ const checkCurrentUsers = async () => {
     }
   }
 
-  await saveUsers(users)
+  await saveUsers(usersFile, users)
 }
 
 export default {
-  start: () => {
+  start: (usersFile = USERS_FILE) => {
     setInterval(async () => {
-      await checkCurrentUsers()
+      await checkCurrentUsers(usersFile)
     }, 30000)
 
-    checkCurrentUsers()
+    checkCurrentUsers(usersFile)
   },
 }
