@@ -11,13 +11,15 @@
     "test:integration": "node -r esm  ./tests/integration/index.js",
     "coverage:unit": "nyc npm run test:unit",
     "coverage:integration": "nyc npm run test:integration",
-    "start": "node -r esm index.js",
+    "start:fetcher": "node -r esm datafetcher.js",
+    "start:saver": "node -r esm datasaver.js",
     "start:dev": "nodemon -r esm --ignore tests --ignore '*.test.js'"
   },
   "author": "",
   "license": "UNLICENSED",
   "dependencies": {
     "esm": "3.2.17",
+    "express": "4.16.4",
     "request": "2.88.0",
     "request-promise": "4.2.4"
   },
@@ -28,6 +30,7 @@
     "eslint-plugin-node": "8.0.1",
     "eslint-plugin-promise": "4.0.1",
     "eslint-plugin-standard": "4.0.0",
+    "nock": "10.0.6",
     "nodemon": "1.18.10",
     "nyc": "13.3.0",
     "riteway": "6.0.3",

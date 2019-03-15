@@ -1,5 +1,5 @@
-const rp = require('request-promise')
-const express = require('express')
+import express from 'express'
+import getUsers from './src/get-users'
 
 const app = express()
 
@@ -8,13 +8,6 @@ app.listen(3000, () => {
 })
 
 app.get('/users', async (req, res) => {
-  const opts = {
-    method: 'GET',
-    uri: 'https://jsonplaceholder.typicode.com/users',
-    json: true,
-  }
-
-  const users = await rp(opts)
-
+  const { users } = await getUsers()
   res.json(users)
 })
