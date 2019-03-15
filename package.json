@@ -13,7 +13,7 @@
     "coverage:integration": "nyc npm run test:integration",
     "start:fetcher": "node -r esm datafetcher.js",
     "start:saver": "node -r esm datasaver.js",
-    "start:dev": "nodemon -r esm --ignore tests --ignore '*.test.js'"
+    "start": "node -r esm index.js"
   },
   "author": "",
   "license": "UNLICENSED",

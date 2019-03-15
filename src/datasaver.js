@@ -43,8 +43,12 @@ const checkCurrentUsers = async () => {
   await saveUsers(users)
 }
 
-setInterval(async () => {
-  await checkCurrentUsers()
-}, 30000)
+export default {
+  start: () => {
+    setInterval(async () => {
+      await checkCurrentUsers()
+    }, 30000)
 
-checkCurrentUsers()
+    checkCurrentUsers()
+  },
+}
