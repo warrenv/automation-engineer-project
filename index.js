@@ -12,10 +12,24 @@ const run = usersFile => {
     .catch(console.log)
 }
 
-dataFetcher.listen(port, () => {
-  console.log(`DATA FETCHER RUNNING ON PORT ${port}`)
+if (process.argv.length === 2) {
+  dataFetcher.listen(port, () => {
+    console.log(`DATA FETCHER RUNNING ON PORT ${port}`)
 
+    console.log('DATA SAVER RUNNING')
+    setInterval(() => run(USERS_FILE), 30000)
+    run(USERS_FILE)
+  })
+}
+
+if (process.argv.length === 3 && process.argv[2] === 'datafetcher') {
+  dataFetcher.listen(port, () => {
+    console.log(`DATA FETCHER RUNNING ON PORT ${port}`)
+  })
+}
+
+if (process.argv.length === 3 && process.argv[2] === 'datasaver') {
   console.log('DATA SAVER RUNNING')
   setInterval(() => run(USERS_FILE), 30000)
   run(USERS_FILE)
-})
+}

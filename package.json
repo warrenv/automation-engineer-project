@@ -11,8 +11,8 @@
     "test:integration": "node -r esm  ./tests/integration/index.js",
     "coverage:unit": "nyc npm run test:unit",
     "coverage:integration": "nyc npm run test:integration",
-    "start:fetcher": "node -r esm datafetcher.js",
-    "start:saver": "node -r esm datasaver.js",
+    "start:fetcher": "node -r esm index.js datafetcher",
+    "start:saver": "node -r esm index.js datasaver",
     "start": "node -r esm index.js"
   },
   "author": "",
