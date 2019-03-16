@@ -1,6 +1,6 @@
 - General TODOS
   - Refactor to constants.
-    - Helps with maintainability by having a single source of truth.
+    - [x] Helps with maintainability by having a single source of truth.
 
   - Use an index.js to unify.
     - datafetcher
@@ -20,8 +20,8 @@
     - log errors.
 
 - Can the datasaver save data successfully
-  - TODO: write unit tests if applicable.
-  - TODO: write an integration test.
+  - [x] TODO: write unit tests if applicable.
+  - [x] TODO: write an integration test.
     - log success.
       - log number of new entries.
     - log errors.
@@ -37,7 +37,9 @@
   - TODO: write a functional test for this.
 
 - What would you monitor to make sure it was still working, and how might you set that up? (no need to actually do it)
-  - set up an ELK stack and create:
-    - A heartbeat monitor to ensure we are executing on schedule.
-    - Log monitoring for failing to fetch the data.
-    - Log monitoring for failing to writing the file.
+  - datasaver
+    - Log a message with a timestamp every time we run.
+    - Log a message if failing to save the file.
+  - datafetcher
+    - Log success or failure (via an express middleware) for every request.
+  - Set up an ELK stack or similar log monitoring/dashbord setup to process the logs.
