@@ -19,7 +19,10 @@ const buildReport = (users, fetched) =>
       : `FOUND NEW USER ${user.id} ${user.name}`
   )
 
-const merge = (acc, curr) => ({ ...acc, [curr.id]: curr })
+export const merge = (acc, curr) => ({
+  ...acc,
+  ...(curr.id && !acc[curr.id]) ? { [curr.id]: curr } : {},
+})
 
 const fetchUsers = () =>
   rp({
@@ -29,7 +32,9 @@ const fetchUsers = () =>
   })
 
 export default async usersFile => {
-  const [newUserList, users] = await Promise.all([fetchUsers(), getSavedUsers(usersFile)])
+  const newUserList = await fetchUsers()
+  const users = await getSavedUsers(usersFile)
+
   saveUsers(usersFile, newUserList.reduce(merge, users))
   return buildReport(users, newUserList)
 }
