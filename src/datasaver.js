@@ -4,7 +4,7 @@ import rp from 'request-promise'
 export const urlHost = 'http://localhost:3000'
 export const urlPath = '/users'
 
-const getSavedUsers = usersFile =>
+export const getSavedUsers = usersFile =>
   fs.existsSync(usersFile)
     ? JSON.parse(fs.readFileSync(usersFile))
     : {}
@@ -12,7 +12,7 @@ const getSavedUsers = usersFile =>
 const saveUsers = (usersFile, users) =>
   fs.writeFileSync(usersFile, JSON.stringify(users, null, 2))
 
-const buildReport = (users, fetched) =>
+export const buildReport = (users, fetched) =>
   fetched.map(
     user => users[user.id]
       ? `USER ALREADY SAVED ${user.id} ${user.name}`
