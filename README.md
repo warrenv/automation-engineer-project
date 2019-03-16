@@ -15,13 +15,20 @@ The `datafetcher` API fetches a list of users - name, address, etc. The purpose 
 
 (assumes node.js >8.0 is installed)
 
-`npm install`
+`npm ci`
 
 ## Startup
 
 Open two separate terminals and run:
-`node datafetcher.js`
-`node datasaver.js`
+```bash
+  $ node -r esm index.js datafetcher
+  $ node -r esm index.js datasaver
+```
+
+or you can run both at the same time with:
+```bash
+  $ node -r esm index.js
+```
 
 You should see both processes start up and print debug logs.
 
@@ -36,3 +43,36 @@ Please use whatever tools/frameworks/methods you prefer to test the system and a
 1. What would you monitor to make sure it was still working, and how might you set that up? (no need to actually do it)
 
 Feel free to edit the server code or change anything necessary to make testing eaiser/better. Comments explaining the thought process behind any changes would be much appreciated.
+
+## Assignment Answers
+
+1. Can the datafetcher get data from the third-party api successfully
+   - See integration tests.
+
+1. Can the datasaver save data successfully
+   - See integration tests.
+
+1. Are we running on schedule (every 30 seconds)?
+   - A monitoring service can use timestamped log entries to verify this.
+   - This is pretty complicated to test due to timing issues around waiting for
+     at least 2 cycles to complete before running assertions. Given more time,
+     I might attempt this.
+   - Ideally, refactor to use an external scheduler like cron or kubernetes CronJob.
+     - This would simplify the service by removing a responsibility.
+       - Inceases maintainability by reducing the time needed to read and understand the code.
+       - Less surface area for bugs.
+       - Easier to test.
+
+1. Is the whole system working? (we're looking for a description or example of how integration testing might work)
+   - A functional test exists for use during development and CI/CD.
+   - During production, monitoring of log output can answer this.
+
+1. What would you monitor to make sure it was still working, and how might you set that up? (no need to actually do it)
+   - datasaver
+     - Log a message every time we run.
+     - Log a message if we fail to save the file.
+
+   - datafetcher
+     - Log success or failure (via an express middleware) for every request.
+ 
+   - Set up an ELK stack to process the logs, provide a dashboard and alert if necessary.
