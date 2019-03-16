@@ -13,7 +13,7 @@ describe('tests/integration/persist-users', async assert => {
       .get(urlPath)
       .reply(200, [{ id: 1, name: 'Fred' }])
 
-    await dataSaver.once(USERS_FILE)
+    await dataSaver(USERS_FILE)
     const actual = fs.existsSync(USERS_FILE)
 
     assert({
@@ -57,7 +57,7 @@ describe('tests/integration/persist-users', async assert => {
         },
       }
 
-      await dataSaver.once(USERS_FILE)
+      const report = await dataSaver(USERS_FILE)
       const actual = JSON.parse(fs.readFileSync(USERS_FILE))
 
       assert({
@@ -65,6 +65,14 @@ describe('tests/integration/persist-users', async assert => {
         should: 'have two users in the file',
         actual,
         expected,
+      })
+
+      assert({
+        given: 'a new user and a call to update an existing file',
+        should: 'return data for the report',
+        actual: report,
+        expected: ['USER ALREADY SAVED 1 Fred', 'FOUND NEW USER 2 Sally']
+        ,
       })
     }
 
