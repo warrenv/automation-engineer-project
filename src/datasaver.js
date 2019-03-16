@@ -1,7 +1,8 @@
 import fs from 'fs'
 import rp from 'request-promise'
 
-export const urlHost = 'http://localhost:3000'
+export const urlHost = 'http://localhost'
+export const urlPort = '3000'
 export const urlPath = '/users'
 
 export const getSavedUsers = usersFile =>
@@ -24,15 +25,15 @@ export const merge = (acc, curr) => ({
   ...(curr.id && !acc[curr.id]) ? { [curr.id]: curr } : {},
 })
 
-const fetchUsers = () =>
+const fetchUsers = port =>
   rp({
     method: 'GET',
-    uri: 'http://localhost:3000/users',
+    uri: `${urlHost}:${port}${urlPath}`,
     json: true,
   })
 
-export default async usersFile => {
-  const newUserList = await fetchUsers()
+export default async (usersFile, port = urlPort) => {
+  const newUserList = await fetchUsers(port)
   const users = await getSavedUsers(usersFile)
 
   saveUsers(usersFile, newUserList.reduce(merge, users))

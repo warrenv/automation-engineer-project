@@ -5,15 +5,16 @@ import nock from 'nock'
 import dataSaver, { urlHost, urlPath } from '../../src/datasaver'
 
 const USERS_FILE = './tests/tmp/users.json'
+const port = 3332
 
 describe('tests/integration/persist-users', async assert => {
   {
     fs.existsSync(USERS_FILE) && fs.unlinkSync(USERS_FILE, () => {})
-    nock(urlHost)
+    nock(`${urlHost}:${port}`)
       .get(urlPath)
       .reply(200, [{ id: 1, name: 'Fred' }])
 
-    await dataSaver(USERS_FILE)
+    await dataSaver(USERS_FILE, port)
     const actual = fs.existsSync(USERS_FILE)
 
     assert({
@@ -42,7 +43,7 @@ describe('tests/integration/persist-users', async assert => {
     }
 
     {
-      nock(urlHost)
+      nock(`${urlHost}:${port}`)
         .get(urlPath)
         .reply(200, [{ id: 1, name: 'Fred' }, { id: 2, name: 'Sally' }])
 
@@ -57,7 +58,7 @@ describe('tests/integration/persist-users', async assert => {
         },
       }
 
-      const report = await dataSaver(USERS_FILE)
+      const report = await dataSaver(USERS_FILE, port)
       const actual = JSON.parse(fs.readFileSync(USERS_FILE))
 
       assert({

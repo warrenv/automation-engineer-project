@@ -17,8 +17,8 @@ if (process.argv.length === 2) {
     console.log(`DATA FETCHER RUNNING ON PORT ${port}`)
 
     console.log('DATA SAVER RUNNING')
-    setInterval(() => run(USERS_FILE), 30000)
-    run(USERS_FILE)
+    setInterval(() => run(USERS_FILE, port), 30000)
+    run(USERS_FILE, port)
   })
 }
 
@@ -31,5 +31,5 @@ if (process.argv.length === 3 && process.argv[2] === 'datafetcher') {
 if (process.argv.length === 3 && process.argv[2] === 'datasaver') {
   console.log('DATA SAVER RUNNING')
   setInterval(() => run(USERS_FILE), 30000)
-  run(USERS_FILE)
+  run(USERS_FILE, port)
 }
