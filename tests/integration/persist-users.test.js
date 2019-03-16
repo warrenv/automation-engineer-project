@@ -1,21 +1,17 @@
 import { describe } from 'riteway'
-import http from 'http'
 import fs from 'fs'
 import nock from 'nock'
 
-import dataFetcher from '../../src/datafetcher'
 import dataSaver, { urlHost, urlPath } from '../../src/datasaver'
 
 const USERS_FILE = './tests/tmp/users.json'
 
 describe('tests/integration/persist-users', async assert => {
   {
-    const port = process.env.PORT || 3000
     fs.existsSync(USERS_FILE) && fs.unlinkSync(USERS_FILE, () => {})
     nock(urlHost)
       .get(urlPath)
       .reply(200, [{ id: 1, name: 'Fred' }])
-    const server = http.createServer(dataFetcher).listen(port)
 
     await dataSaver.once(USERS_FILE)
     const actual = fs.existsSync(USERS_FILE)
@@ -73,6 +69,5 @@ describe('tests/integration/persist-users', async assert => {
     }
 
     fs.existsSync(USERS_FILE) && fs.unlinkSync(USERS_FILE, () => {})
-    server.close()
   }
 })
