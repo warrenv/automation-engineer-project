@@ -2,3 +2,5 @@ node_modules
 .envrc
 users.json
 tests/tmp/
+.nyc_output
+coverage
